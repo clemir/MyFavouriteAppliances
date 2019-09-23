@@ -11,10 +11,26 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'AppliancesListController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/favorite/{appliance}', 'FavoriteController@favorite')
+        ->name('favorite');
+    Route::delete('/favorite/{appliance}', 'FavoriteController@destroy')
+        ->name('favorite.destroy');
+    Route::get('/my-wishlist', 'AppliancesListController@index')
+        ->name('my-wishlist');
+    Route::get('share', 'ShareWishlistController@create')
+        ->name('share.create');
+    Route::post('share', 'ShareWishlistController@store')
+        ->name('share.send');
+});
+
+Route::get('users/{user}/wishlist', 'AppliancesListController@index')
+    ->name('user-appliances');
+
+Route::get('mail', function () {
+    return new App\Mail\SendWishlist();
+});
