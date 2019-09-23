@@ -13,6 +13,17 @@
 
     <div class="row">
         <div class="col-lg-8 mx-auto">
+            <div class="d-flex mb-6 justify-content-end mb-4">
+                <form method="get" class="form form-inline">
+                    <select class="form-control" name="sort" >
+                        <option value="title" @if(request('sort') == 'title') selected @endif>Title A to Z</option>
+                        <option value="-title"@if(request('sort') == '-title') selected @endif>Title Z to A</option>
+                        <option value="-price" @if(request('sort') == '-price') selected @endif>Price high to low</option>
+                        <option value="price" @if(request('sort') == 'price') selected @endif>Price low to high</option>
+                    </select>
+                    <button type="submit" class="ml-2 btn btn-sm btn-success">Order</button>
+                </form>
+            </div>
             @each('appliances.item', $appliances, 'appliance', 'appliances.empty')
             {{ $appliances->links() }}
         </div>

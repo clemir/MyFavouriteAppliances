@@ -28,6 +28,7 @@ class ListAppliancesTest extends TestCase
 
         $this->assertCount(10, $result);
     }
+
     /** @test */
     public function itShowsMyWishlistSection()
     {
@@ -68,5 +69,105 @@ class ListAppliancesTest extends TestCase
                 ->contains($applianceB);
 
         $this->assertCount(2, $response->viewData('appliances'));
+    }
+
+    /** @test */
+    public function itShowsAppliancesHomeOrderByTitleAtoZ()
+    {
+        factory(Appliance::class)->create([
+            'title' => 'Z Title',
+        ]);
+
+        factory(Appliance::class)->create([
+            'title' => 'C Title',
+        ]);
+
+        factory(Appliance::class)->create([
+            'title' => 'R Title',
+        ]);
+
+        $response = $this->get('/?sort=title');
+
+        $response->assertStatus(200)
+            ->assertSeeInOrder([
+                'C Title',
+                'R Title',
+                'Z Title'
+            ]);
+    }
+
+    /** @test */
+    public function itShowsAppliancesHomeOrderByTitleZtoA()
+    {
+        factory(Appliance::class)->create([
+            'title' => 'S Title',
+        ]);
+
+        factory(Appliance::class)->create([
+            'title' => 'C Title',
+        ]);
+
+        factory(Appliance::class)->create([
+            'title' => 'H Title',
+        ]);
+
+        $response = $this->get('/?sort=-title');
+
+        $response->assertStatus(200)
+            ->assertSeeInOrder([
+                'S Title',
+                'H Title',
+                'C Title'
+            ]);
+    }
+
+    /** @test */
+    public function itShowsAppliancesHomeOrderByMostExpensive()
+    {
+        factory(Appliance::class)->create([
+            'price' => 100000,
+        ]);
+
+        factory(Appliance::class)->create([
+            'price' => 500000,
+        ]);
+
+        factory(Appliance::class)->create([
+            'price' => 300000,
+        ]);
+
+        $response = $this->get('/?sort=-price');
+
+        $response->assertStatus(200)
+            ->assertSeeInOrder([
+                5000,
+                3000,
+                1000
+            ]);
+    }
+
+    /** @test */
+    public function itShowsAppliancesHomeOrderByLeastExpensive()
+    {
+        factory(Appliance::class)->create([
+            'price' => 100000,
+        ]);
+
+        factory(Appliance::class)->create([
+            'price' => 500000,
+        ]);
+
+        factory(Appliance::class)->create([
+            'price' => 300000,
+        ]);
+
+        $response = $this->get('/?sort=price');
+
+        $response->assertStatus(200)
+            ->assertSeeInOrder([
+                1000,
+                3000,
+                5000
+            ]);
     }
 }

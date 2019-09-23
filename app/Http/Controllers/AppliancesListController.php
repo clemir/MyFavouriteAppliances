@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Appliance;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class AppliancesListController extends Controller
@@ -11,8 +12,18 @@ class AppliancesListController extends Controller
 
     public function index(Request $request, User $user = null)
     {
+        $column = $request->get('sort', 'created_at');
+        $direction = Str::startsWith($column, '-') ? 'desc' : 'asc';
+        $column = ltrim($column, '-');
+
+        $appliances = Appliance::queryBySection($this->getRouteName(), $user)
+            ->orderBy($column, $direction)
+            ->paginate();
+
+        $appliances->appends(['sort' => $column]);
+
         return view('appliances.index', [
-            'appliances' => Appliance::queryBySection($this->getRouteName(), $user)->paginate(),
+            'appliances' => $appliances,
             'title' => $this->getTitle($user),
             'subtitle' => $this->getSubtitle()
         ]);
