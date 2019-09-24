@@ -6,9 +6,16 @@ use App\User;
 use App\Appliance;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Repositories\ApplianceRepositoryContract;
 
 class AppliancesListController extends Controller
 {
+    private $applianceRepository;
+
+    public function __construct(ApplianceRepositoryContract $applianceRepository)
+    {
+        $this->applianceRepository = $applianceRepository;
+    }
 
     public function index(Request $request, User $user = null)
     {
@@ -16,9 +23,8 @@ class AppliancesListController extends Controller
         $direction = Str::startsWith($column, '-') ? 'desc' : 'asc';
         $column = ltrim($column, '-');
 
-        $appliances = Appliance::queryBySection($this->getRouteName(), $user)
-            ->orderBy($column, $direction)
-            ->paginate();
+        $appliances = $this->applianceRepository
+                ->all($this->getRouteName(), $user, $column, $direction);
 
         $appliances->appends(['sort' => $column]);
 
