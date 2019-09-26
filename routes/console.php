@@ -1,5 +1,7 @@
 <?php
 
+use Goutte\Client;
+use App\Jobs\SyncAppliances;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('sync', function () {
+    $client = new Client();
+    dispatch_now(new SyncAppliances($client));
+    $this->comment('Sync ready!');
+})->describe('Sync appliances delivered.');

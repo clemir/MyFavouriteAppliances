@@ -9,9 +9,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Client as GuzzleClient;
 use App\Services\AppliancesCrawlerConverter;
-use Illuminate\Foundation\Testing\WithFaker;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AppliancesCrawlerConverterTest extends TestCase
 {
@@ -101,7 +99,7 @@ class AppliancesCrawlerConverterTest extends TestCase
 
 
         $this->assertEquals(
-            '€2,495.95',
+            '249595',
             $converter->getPrice($converter->getProductNode())
         );
     }

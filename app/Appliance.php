@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appliance extends Model
 {
+    protected $casts = [
+        'description' => 'array',
+    ];
+
+    protected $guarded = [];
+
     public function getFormatPriceAttribute()
     {
-        return $this->price/100;
+        return '€'.$this->price/100;
     }
 
     public static function queryBySection($section, User $user = null)

@@ -55,7 +55,7 @@ class AppliancesCrawlerConverter
 
     public function getPrice(Crawler $node)
     {
-        return $node->filter('.section-title')->first()->text();
+        return preg_replace('/[^0-9]/', '', $node->filter('.section-title')->first()->text());
     }
 
     public function getDescription(Crawler $node)

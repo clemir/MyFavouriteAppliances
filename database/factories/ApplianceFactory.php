@@ -8,8 +8,10 @@ use Faker\Generator as Faker;
 $factory->define(Appliance::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
-        'price' => $faker->randomNumber,
-        'brand' => $faker->company,
-        'type' => $faker->randomElement(['small appliances', 'dishwasher']),
+        'price' => $faker->numberBetween($min = 1000, $max = 999999),
+        'model' => $faker->asciify('******'),
+        'url' => $faker->url,
+        'image' => $faker->imageUrl(250, 250),
+        'description' => $faker->sentences(3)
     ];
 });

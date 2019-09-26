@@ -17,8 +17,10 @@ class CreateAppliancesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->integer('price');
-            $table->string('brand');
-            $table->string('type');
+            $table->string('model');
+            $table->string('url');
+            $table->text('image')->nullable();
+            $table->string('description');
             $table->timestamps();
         });
     }
