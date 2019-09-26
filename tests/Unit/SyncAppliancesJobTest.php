@@ -37,11 +37,10 @@ class SyncAppliancesJobTest extends TestCase
 
     public function testDispachJob()
     {
-        //Queue::fake();
         $client = new Client();
         $client->setClient($this->getGuzzle());
 
-        dispatch_now(new SyncAppliances($client));
+        dispatch_now(new SyncAppliances);
         
         $this->assertCount(40, Appliance::all());
     }

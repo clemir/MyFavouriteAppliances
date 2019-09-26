@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\ServiceRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Services\CrawlerServiceRepository;
 use App\Repositories\ApplianceEloquentRepository;
 use App\Repositories\ApplianceRepositoryContract;
 
@@ -16,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ApplianceRepositoryContract::class, ApplianceEloquentRepository::class);
+
+        $this->app->bind(ServiceRepository::class, CrawlerServiceRepository::class);
     }
 
     /**

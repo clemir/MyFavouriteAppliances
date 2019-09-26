@@ -20,7 +20,6 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('sync', function () {
-    $client = new Client();
-    dispatch_now(new SyncAppliances($client));
+    dispatch_now(new SyncAppliances);
     $this->comment('Sync ready!');
 })->describe('Sync appliances delivered.');
