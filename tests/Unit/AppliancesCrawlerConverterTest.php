@@ -37,7 +37,7 @@ class AppliancesCrawlerConverterTest extends TestCase
 
         $converter = new AppliancesCrawlerConverter($this->getCrawler($guzzle));
 
-        $this->assertCount(20, $converter->getAll());
+        $this->assertCount(3, $converter->getAll());
     }
 
     function testGetTitle()
@@ -52,7 +52,7 @@ class AppliancesCrawlerConverterTest extends TestCase
 
         $this->assertEquals(
             'Sage Oracle Touch Brushed Stainless Steel Bean To Cup Coffee Machine BES990BSS',
-            $converter->getTitle($converter->getProductNode())
+            $converter->getTitle($converter->getProductNodes())
         );
     }
 
@@ -68,7 +68,7 @@ class AppliancesCrawlerConverterTest extends TestCase
 
         $this->assertEquals(
             'https://www.appliancesdelivered.ie/sage-oracle-touch-brushed-stainless-steel-bean-to-cup-coffee-machine-bes990bss/5004',
-            $converter->getUrl($converter->getProductNode())
+            $converter->getUrl($converter->getProductNodes())
         );
     }
 
@@ -84,7 +84,7 @@ class AppliancesCrawlerConverterTest extends TestCase
 
         $this->assertEquals(
             'BES990BSS',
-            $converter->getModel($converter->getProductNode())
+            $converter->getModel($converter->getProductNodes())
         );
     }
 
@@ -100,7 +100,52 @@ class AppliancesCrawlerConverterTest extends TestCase
 
         $this->assertEquals(
             '249595',
-            $converter->getPrice($converter->getProductNode())
+            $converter->getPrice($converter->getProductNodes())
+        );
+    }
+
+    function testGetImageUrl()
+    {
+        $guzzle = $this->getGuzzle([
+            new GuzzleResponse(200, [], file_get_contents('./tests/fixtures/oneAppliance.html')),
+        ]);
+
+        $crawler = $this->getCrawler($guzzle);
+        $converter = new AppliancesCrawlerConverter($crawler);
+
+        $this->assertEquals(
+            'https://img.resized.co/appliancesdelivered/eyJkYXRhIjoie1widXJsXCI6XCJodHRwczpcXFwvXFxcL3MzLWV1LXdlc3QtMS5hbWF6b25hd3MuY29tXFxcL3N0b3JhZ2UuYnV5YW5kc2VsbC5pZVxcXC91cGxvYWRzXFxcLzUwMDRcXFwvNWM5Y2Y4ZWQ5NDczNS1mNWYzZjE0ZWM3NDM0MGU3ZmY5M2E3NmRjYWVkNDIwMlwiLFwid2lkdGhcIjoyNTAsXCJoZWlnaHRcIjpcIlwiLFwiZGVmYXVsdFwiOlwiaHR0cHM6XFxcL1xcXC9zMy1ldS13ZXN0LTEuYW1hem9uYXdzLmNvbVxcXC9zdG9yYWdlLmJ1eWFuZHNlbGwuaWVcXFwvYXBwbGlhbmNlcy1kZWxpdmVyZWQtbm9pbWFnZS1sZy5wbmdcIn0iLCJoYXNoIjoiYmVmY2Q2YzRkYjc2OTA1N2RmMjM2MzQ2MjM1YmUwOTkwNTg2NTA5MiJ9/sage-oracle-touch-brushed-stainless-steel-bean-to-cup-coffee-machine-bes990bss',
+            $converter->getImage($converter->getProductNodes())
+        );
+    }
+
+    function testGetPageQuantity()
+    {
+        $guzzle = $this->getGuzzle([
+            new GuzzleResponse(200, [], file_get_contents('./tests/fixtures/web.html')),
+        ]);
+
+        $crawler = $this->getCrawler($guzzle);
+        $converter = new AppliancesCrawlerConverter($crawler);
+
+        $this->assertEquals(
+            2,
+            $converter->getPageQuantity()
+        );
+    }
+
+    function testGetPageBaseUrl()
+    {
+        $guzzle = $this->getGuzzle([
+            new GuzzleResponse(200, [], file_get_contents('./tests/fixtures/web.html')),
+        ]);
+
+        $crawler = $this->getCrawler($guzzle);
+        $converter = new AppliancesCrawlerConverter($crawler);
+
+        $this->assertEquals(
+            'https://www.appliancesdelivered.ie/search/small-appliances?sort=price_desc',
+            $converter->getPageBaseUrl()
         );
     }
 

@@ -24,7 +24,9 @@ class SyncAppliancesJobTest extends TestCase
         if (empty($responses)) {
             $responses = [
                 new GuzzleResponse(200, [], file_get_contents(__DIR__.'/../fixtures/web.html')),
-                new GuzzleResponse(200, [], file_get_contents(__DIR__.'/../fixtures/dishwashers.html'))
+                new GuzzleResponse(200, [], file_get_contents(__DIR__.'/../fixtures/web2.html')),
+                new GuzzleResponse(200, [], file_get_contents(__DIR__.'/../fixtures/dishwashers.html')),
+                new GuzzleResponse(200, [], file_get_contents(__DIR__.'/../fixtures/dishwashers2.html'))
             ];
         }
         $this->mock = new MockHandler($responses);

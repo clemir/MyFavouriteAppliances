@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
 class AppliancesCrawlerConverter
@@ -15,8 +16,14 @@ class AppliancesCrawlerConverter
 
     public function getAll()
     {
-        return $this->getProductNode()->each(function ($node) {
-            return [
+        return $this->getProductNodes()->each(function ($node) {
+            return $this->getAppliance($node);
+        });
+    }
+
+    public function getAppliance(Crawler $node)
+    {
+        return [
                 'url' => $this->getUrl($node),
                 'image' => $this->getImage($node),
                 'title' => $this->getTitle($node),
@@ -24,10 +31,9 @@ class AppliancesCrawlerConverter
                 'price' => $this->getPrice($node),
                 'description' => $this->getDescription($node),
             ];
-        });
     }
 
-    public function getProductNode()
+    public function getProductNodes()
     {
         return $this->crawler->filter('.search-results-product');
     }
@@ -39,7 +45,7 @@ class AppliancesCrawlerConverter
 
     public function getImage(Crawler $node)
     {
-        return $node->filter('.product-image')->filter('img')->attr('src');
+        return $node->filter('.product-image')->filter('img')->attr('data-src');
     }
 
     public function getTitle(Crawler $node)
@@ -64,5 +70,15 @@ class AppliancesCrawlerConverter
             ->each(function ($value) {
                 return $value->text();
             });
+    }
+
+    public function getPageQuantity()
+    {
+        return (int)Str::after($this->crawler->filter('.result-list-pagination')->children()->last()->attr('href'), 'page=');
+    }
+
+    public function getPageBaseUrl()
+    {
+        return Str::before($this->crawler->filter('.result-list-pagination')->children()->last()->attr('href'), '&page=');
     }
 }

@@ -4,7 +4,7 @@
 
 <div class="container py-5">
 
-    <div class="row text-center text-primary mb-5">
+    <div class="row text-center text-danger mb-5">
         <div class="col-lg-7 mx-auto">
             <h1 class="display-4">{{ $title }}</h1>
             <p class="lead text-muted mb-0">{{ $subtitle }}@if (request()->is("my-wishlist") && $appliances->count() > 0)<a href="{{ route('share.create') }}">by email!</a>@endif</p>
