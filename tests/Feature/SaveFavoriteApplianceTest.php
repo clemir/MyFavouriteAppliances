@@ -12,8 +12,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SaveFavoriteApplianceTest extends TestCase
 {
-    use DatabaseTransactions;
-    //use RefreshDatabase;
+    // use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testGuestCanNotSaveAnAppliance()
     {

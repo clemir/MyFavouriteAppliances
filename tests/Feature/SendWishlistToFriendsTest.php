@@ -15,8 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SendWishlistToFriendsTest extends TestCase
 {
-    use DatabaseTransactions;
-    //use RefreshDatabase;
+    // use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testGuestCanNotSendAWishlist()
     {

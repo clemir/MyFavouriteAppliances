@@ -19,7 +19,7 @@ class AppliancesListController extends Controller
 
     public function index(Request $request, User $user = null)
     {
-        $column = $request->get('sort', 'created_at');
+        $column = $request->get('sort', '-price');
         $direction = Str::startsWith($column, '-') ? 'desc' : 'asc';
         $column = ltrim($column, '-');
 

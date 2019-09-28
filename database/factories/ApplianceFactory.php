@@ -12,6 +12,7 @@ $factory->define(Appliance::class, function (Faker $faker) {
         'model' => $faker->asciify('******'),
         'url' => $faker->url,
         'image' => $faker->imageUrl(250, 250),
+        'status' => true,
         'description' => $faker->sentences(3)
     ];
 });

@@ -17,7 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SyncAppliancesJobTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function getGuzzle(array $responses = [], array $extraConfig = [])
     {
@@ -39,6 +39,7 @@ class SyncAppliancesJobTest extends TestCase
 
     public function testDispachJob()
     {
+        // $this->markTestSkipped();
         $client = new Client();
         $client->setClient($this->getGuzzle());
 

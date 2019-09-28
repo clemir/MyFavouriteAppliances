@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Goutte\Client;
+use Illuminate\Support\Facades\Log;
 
 class CrawlerServiceRepository implements ServiceRepository
 {
@@ -21,7 +22,7 @@ class CrawlerServiceRepository implements ServiceRepository
 
     public function getAllAppliances()
     {
-        $this->getAppliancesFromUrl(config('app.url1'));
+        //$this->getAppliancesFromUrl(config('app.url1'));
         $this->getAppliancesFromUrl(config('app.url2'));
 
         return $this->appliances;
@@ -32,7 +33,9 @@ class CrawlerServiceRepository implements ServiceRepository
         $this->setInformationFor($url);
         
         for ($pageNum=1; $pageNum <= $this->pageTotalQuantity; $pageNum++) {
-            $this->getAppliancesFrom("{$this->pageBaseUri}$pageNum");
+            $page = "{$this->pageBaseUri}&page=$pageNum";
+            Log::channel('log-sync')->notice("Get appliances from: $page");
+            $this->getAppliancesFrom($page);
         }
     }
 
@@ -59,6 +62,7 @@ class CrawlerServiceRepository implements ServiceRepository
 
     public function crawlerFrom($page)
     {
+        dd($this->client);
         return $this->client->request('GET', $page);
     }
 

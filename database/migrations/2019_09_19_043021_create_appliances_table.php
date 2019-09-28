@@ -16,6 +16,7 @@ class CreateAppliancesTable extends Migration
         Schema::create('appliances', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
+            $table->boolean('status');
             $table->integer('price');
             $table->string('model');
             $table->string('url');
