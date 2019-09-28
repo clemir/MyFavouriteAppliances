@@ -32,6 +32,7 @@ You will need to make sure your server meets the following requirements:
 - Clone or download this repository to your PHP server that met with the requirements.
 - Rename .env.example to .env and fill the MYSQL database credentials.
 Run `composer install`, then `php artisan key:generate` and finally `php artisan migrate`.
+- Configure a driver for mail filling the variables about `MAIL_` in the .env file. 
 - In order to sync all appliances the first time, run `php artisan sync`.
 - Later, there is a configured job to sync all appliances every hour. You only need to add the following Cron entry to your server:  `* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1`
 
